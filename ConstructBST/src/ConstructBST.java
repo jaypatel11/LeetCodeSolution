@@ -124,4 +124,33 @@ public class ConstructBST {
 
     }
 
+    public TreeNode sortedArrayToBST(int[] num) {
+
+
+        return constructBSTSortedArray(num, 0, num.length - 1);
+
+    }
+
+    private TreeNode constructBSTSortedArray(int[] num, int start, int end) {
+
+
+        if(start > end)
+            return null;
+
+        int rootIndex = (start + end)/2;
+
+        int rootValue = num[rootIndex];
+
+
+        TreeNode root = new TreeNode();
+        root.setData(rootValue);
+
+
+        root.setLeft(constructBSTSortedArray(num, start, rootIndex -1));
+
+        root.setRight(constructBSTSortedArray(num, rootIndex +1, end));
+
+        return root;
+    }
+
 }
