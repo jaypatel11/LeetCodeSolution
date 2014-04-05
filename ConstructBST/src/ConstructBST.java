@@ -50,11 +50,51 @@ public class ConstructBST {
         int inorderEnd = inorder.length -1;
         int postOrderStart = 0 ;
         int postOrderEnd =  postorder.length-1;
-        return constructBSTHelper(inorder, postorder, inorderStart, inorderEnd, postOrderStart, postOrderEnd);
+        return constructBSTInorderPostorderHelper(inorder, postorder, inorderStart, inorderEnd, postOrderStart, postOrderEnd);
 
     }
 
-    private TreeNode constructBSTHelper(int[] inorder, int[] postorder, int inorderStart, int inorderEnd, int postOrderStart, int postOrderEnd) {
+    public TreeNode constructBSTInorderPreorder(int[] inorder, int[] preorder){
+
+        int inorderStart = 0;
+        int inorderEnd = inorder.length -1;
+        int preOrderStart = 0 ;
+        int preOrderEnd =  preorder.length-1;
+        return constructBSTInorderPreorderHelper(inorder, preorder, inorderStart, inorderEnd, preOrderStart, preOrderEnd);
+
+    }
+
+    private TreeNode constructBSTInorderPreorderHelper(int[] inorder, int[] preorder, int inorderStart, int inorderEnd, int preOrderStart, int preOrderEnd) {
+
+
+        if(inorderStart > inorderEnd || preOrderStart > preOrderEnd)
+            return null;
+
+        int currentRootValue = preorder[preOrderStart];
+
+
+        TreeNode root = new TreeNode();
+        root.setData(currentRootValue);
+
+        int split = inorderStart;
+
+        for(int i = inorderStart; i <= inorderEnd;i++){
+
+            if(currentRootValue == inorder[i]){
+
+                split = i;
+                break;
+
+            }
+
+        }
+
+        root.setLeft(constructBSTInorderPreorderHelper(inorder, preorder, inorderStart, split-1, preOrderStart+1, preOrderStart+ split- inorderStart));
+        root.setRight(constructBSTInorderPreorderHelper(inorder, preorder, split +1, inorderEnd, preOrderStart + split -inorderStart +1, preOrderEnd));
+        return root;
+    }
+
+    private TreeNode constructBSTInorderPostorderHelper(int[] inorder, int[] postorder, int inorderStart, int inorderEnd, int postOrderStart, int postOrderEnd) {
 
         if(inorderStart > inorderEnd || postOrderStart > postOrderEnd)
 
@@ -77,8 +117,8 @@ public class ConstructBST {
 
         }
 
-        root.setLeft(constructBSTHelper(inorder, postorder, inorderStart, split -1, postOrderStart, postOrderStart +split- inorderStart -1));
-        root.setRight(constructBSTHelper(inorder, postorder, split+1, inorderEnd, postOrderStart + split - inorderStart, postOrderEnd-1));
+        root.setLeft(constructBSTInorderPostorderHelper(inorder, postorder, inorderStart, split - 1, postOrderStart, postOrderStart + split - inorderStart - 1));
+        root.setRight(constructBSTInorderPostorderHelper(inorder, postorder, split + 1, inorderEnd, postOrderStart + split - inorderStart, postOrderEnd - 1));
 
         return root;
 
