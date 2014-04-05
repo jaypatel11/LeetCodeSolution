@@ -137,7 +137,7 @@ public class ConstructBST {
         if(start > end)
             return null;
 
-        int rootIndex = (start + end)/2;
+        int rootIndex = start + (end-start)/2;
 
         int rootValue = num[rootIndex];
 
