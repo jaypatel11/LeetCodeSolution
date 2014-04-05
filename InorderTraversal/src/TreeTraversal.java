@@ -443,13 +443,55 @@ class Tree{
         return levelOrder;
     }
 
+
+    public TreeNode constructBST(int[] inorder, int[] postorder){
+
+        int inorderStart = 0;
+        int inorderEnd = inorder.length -1;
+        int postOrderStart = 0 ;
+        int postOrderEnd =  postorder.length-1;
+        return constructBSTHelper(inorder, postorder, inorderStart, inorderEnd, postOrderStart, postOrderEnd);
+
+    }
+
+    private TreeNode constructBSTHelper(int[] inorder, int[] postorder, int inorderStart, int inorderEnd, int postOrderStart, int postOrderEnd) {
+
+        if(inorderStart > inorderEnd || postOrderStart > postOrderEnd)
+
+            return null;
+
+        int currentRootValue = postorder[postOrderEnd];
+
+        TreeNode root = new TreeNode();
+        root.setData(currentRootValue);
+        int split = inorderStart;
+
+        for(int i = inorderStart; i <= inorderEnd;i++){
+
+            if(currentRootValue == inorder[i]){
+
+                split = i;
+                break;
+
+            }
+
+        }
+
+        root.setLeft(constructBSTHelper(inorder, postorder, inorderStart, split -1, postOrderStart, postOrderStart +split- inorderStart -1));
+        root.setRight(constructBSTHelper(inorder, postorder, split+1, inorderEnd, postOrderStart + split - inorderStart, postOrderEnd-1));
+
+        return root;
+
+    }
+
+
 }
 public class TreeTraversal {
 
      public static void main(String args[]){
 
-         Tree tree = new Tree();
-         tree.insert(8);
+       Tree tree = new Tree();
+/*         tree.insert(8);
          tree.insert(3);
          tree.insert(10);
          tree.insert(1);
@@ -461,7 +503,13 @@ public class TreeTraversal {
 
          System.out.println(tree.levelOrder());
 
-         System.out.println(tree.levelOrderTraversalBottomUp());
+         System.out.println(tree.levelOrderTraversalBottomUp());*/
+
+         int[] inorder = {1,2,3,4,5,6,7,8,9};
+         int[] postorder = {1,3,5,4,2,8,9,7,6};
+         TreeNode root = tree.constructBST(inorder, postorder);
+
+         tree.inorderTraversal(root);
 
      }
 
