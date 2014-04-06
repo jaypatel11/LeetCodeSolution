@@ -5,6 +5,17 @@
  * Time: 8:56 PM
  * To change this template use File | Settings | File Templates.
  */
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
 class TreeNode{
 
     TreeNode right,left;
@@ -149,6 +160,47 @@ public class ConstructBST {
         root.setLeft(constructBSTSortedArray(num, start, rootIndex -1));
 
         root.setRight(constructBSTSortedArray(num, rootIndex +1, end));
+
+        return root;
+    }
+
+
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null)
+            return null;
+
+        int len = getLength(head);
+        return sortedListToBST(head, 0, len - 1);
+    }
+
+    // get list length
+    public int getLength(ListNode head) {
+        int len = 0;
+        ListNode p = head;
+
+        while (p != null) {
+            len++;
+            p = p.next;
+        }
+        return len;
+    }
+
+    // build tree bottom-up
+    public TreeNode sortedListToBST(ListNode head, int start, int end) {
+        if (start > end)
+            return null;
+
+        // mid
+        int mid = (start + end) / 2;
+
+        TreeNode left = sortedListToBST(head, start, mid - 1);
+        TreeNode root = new TreeNode();
+        root.setData(head.val);
+        head = head.next;
+        TreeNode right = sortedListToBST(head, mid + 1, end);
+
+        root.setLeft(left);
+        root.setRight(right);
 
         return root;
     }
