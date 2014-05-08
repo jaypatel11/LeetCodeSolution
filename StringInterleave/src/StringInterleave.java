@@ -9,13 +9,15 @@ public class StringInterleave {
 
     public static void main(String args[]){
 
-      /*  System.out.println(isInterleaveDP("aabcc","dbbca","aadbbcbcac"));
-        System.out.println(isInterleaveDP("","",""));
-        */
+       System.out.println(isInterleaveDP("aabcc","dbbca","aadbbcbcac"));
+      /* System.out.println(isInterleaveDP("","",""));
+      */
 /*
         System.out.println(isInterleaveDP("a","","c"));
 */
+/*
         System.out.println(isInterleaveDP("","b","b"));
+*/
 
     }
 
@@ -104,6 +106,17 @@ public class StringInterleave {
                 else IL[i][j] = false;
             }
 
+        }
+
+        for(int i = 0; i < IL.length; i++){
+
+
+            for(int j = 0; j < IL[0].length; j++){
+
+                System.out.print(IL[i][j]+" ");
+
+            }
+            System.out.println();
         }
         return IL[s1.length()][s2.length()];
 
